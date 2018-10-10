@@ -12,5 +12,7 @@ yarn-error.log
 .env
 .phpunit.result.cache
 
-.swp
-.swp.*
+# Ignore the vim temporaly files
+*~
+*.swp
+*.swo
