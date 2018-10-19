@@ -23,6 +23,14 @@ Route::get('/test', function () {
     return view('test');
 });
 
+Route::get('/a', function () {
+    return view('layouts.a');
+});
+
+Route::get('/product', function () {
+    return view('add_product');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
