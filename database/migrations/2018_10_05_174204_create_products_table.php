@@ -25,8 +25,6 @@ class CreateProductsTable extends Migration
             $table->string('tag');
             # $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
-            $table->softDeletes();
-
         });
     }
 
