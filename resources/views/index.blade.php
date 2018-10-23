@@ -2,11 +2,11 @@
 @section('right-side')
 
 <nav class="navbar navbar-expand-sm navbar-light justify-content-end">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="{{route('product')}}">
     <button class="btn btn-primary mr-sm-2">ADD PRODUCT</button>
   </a>
   <a class="navbar-brand ml-auto" href="#">
-    <button class="btn btn-primary ml-auto">EDIT PRODUCT</button>
+    <button class="btn btn-primary ml-auto">IMPORT PRODUCT</button>
   </a>
     <input class="form-control input-sm mr-sm-2" type="text", placeholder="Search">
     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>

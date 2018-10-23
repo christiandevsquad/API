@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('sub_name');
+            $table->string('subName');
             $table->integer('price');
             $table->text('description');
             # $table->integer('stock');
@@ -24,7 +24,8 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->string('tag');
             # $table->integer('user_id')->unsigned()->index();
-            # $table->timestamps();
+            $table->timestamps();
+            $table->softDeletes();
 
         });
     }

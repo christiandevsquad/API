@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('right-side')
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
+
 <style>
 .btn-color{
 	color: #ffffff;
@@ -19,14 +22,14 @@
 }
 </style>
 
-
+<form action="{{action('ProductController@store')}}" method="post" enctype="multipart/form-data">
 <div class="row">
 	<div class="col-5">
 		<div class="form-group">
 			<nav class="navbar-nav navbar-expand-sm justify-content-end">
-				<button class="btn btn-primary mr-sm-2 btn-sm">UPDATE</button>
-				<button class="btn btn-warning btn-color mr-sm-2 btn-sm">CANCEL</button>
-				<button class="btn btn-danger btn-sm ml-auto ">DELETE</button>
+				<button type="submit" class="btn btn-primary mr-sm-2 btn-sm">UPDATE</button>
+				<button type="button" class="btn btn-warning btn-color mr-sm-2 btn-sm">CANCEL</button>
+				<button type="button" class="btn btn-danger btn-sm ml-auto ">DELETE</button>
 			</nav>
 		</div>
 
@@ -52,6 +55,7 @@
 
 		<h6 style="font-family: Courier New, Courier, bold, monospace; padding-top:20px;">IMAGES</h6>
 
+    {{--
 		<div class="container text-center" style="padding-left:0px; padding-right:0px;">
 			<div class="row">
 				<div class="col-3">
@@ -67,13 +71,17 @@
 					<button type="button" class="btn btn-primary btn-sm btn-default"> ADD </button>
 				</div>
 			</div>
-		</div>
+    </div>
+    --}}
+
+    
 
 		<nav class="navbar-nav navbar-expand-sm justify-content-end" style="padding-top:20px;">
     	<input class="form-control mr-sm-2" type="tag" placeholder="Tag" aria-label="Tag">
 			<button class="btn btn-primary btn-sm ml-auto">ADD</button>
 		</nav>
 
+    {{--
 		<div class="container" style="padding-top:10px;">
 		<div class="btn-group">
 				<button type="button" class="btn btn-primary btn-sm">PREMIUM</button>
@@ -85,7 +93,8 @@
 				<button type="button" class="btn btn-primary btn-sm">BLACK</button>
 			</div>
 		</div>
-
-		</div>
+    </div>
+    --}}
 </div>
+</form>
 @endsection

@@ -15,112 +15,132 @@ use Auth;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
 
-    public function __construct()
-    {
-        $this->middleware('auth:api')->except('index', 'show');
-    }
+	public function __construct()
+	{
+		// $this->middleware('auth:api')->except('index', 'show');
+	}
 
-    public function index()
-    {
-        return ProductCollection::collection(Product::paginate(10));
-    }
+	public function index()
+	{
+		return ProductCollection::collection(Product::paginate(10));
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(ProductRequest $request)
-    {
-      $product = new Product;
-      $product->name = $request->name;
-      $product->detail = $request->description;
-      $product->stock = $request->stock;
-      $product->price = $request->price;
-      $product->discount = $request->discount;
-      $product->save();
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(ProductRequest $request)
+	{
+		$product = new Product;
+		$product->name = $request->name;
+		$product->subName = $request->subName;
+		$product->price = $request->price;
+		$product->detail = $request->description;
+		$product->tag= $request->tag;
+		// $product->stock = $request->stock;
+		// $product->discount = $request->discount;
 
-      return response([
-        'data' => new ProductResource($product)
-      ], Response::HTTP_CREATED);
-    }
+		$nameFile = null;
+		if ($request->hasFile('image') && $request->file('image')->isValid()) {
+			$name = uniqid(date('HisYmd'));
+			$extension = $request->image->extension();
+			$nameFile = "{$name}.{$extension}";
+			$upload = $request->image->storeAs('categories', $nameFile);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-	#return $product;
-        return new ProductResource($product);
-    }
+			if (!$upload) {
+				return redirect()
+					->back()
+					->with('error', 'Falha ao fazer upload')
+					->withInput();
+			}
+		}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
+		$product->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
-    {
-      $this->ProductUserCheck($product);
-      $request['detail'] = $request->description;
-      unset($request['description']);
-      $product->update($request->all());
-      
-      return response([
-        'data' => new ProductResource($product)
-      ], Response::HTTP_CREATED);
-    }
+		return response([
+			'data' => new ProductResource($product)
+		], Response::HTTP_CREATED);
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Model\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-      $this->ProductUserCheck($product);
-      $product->delete();
-      return response(null, Response::HTTP_NO_CONTENT);
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Model\Product  $product
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(Product $product)
+	{
+		#return $product;
+		return new ProductResource($product);
+	}
 
-    public function ProductUserCheck($product)
-    {
-      if (Auth::id() !== $product->user_id) {
-        throw new ProductNotBelongsToUser;
-      }
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Model\Product  $product
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(Product $product)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Model\Product  $product
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, Product $product)
+	{
+		$this->ProductUserCheck($product);
+		$request['detail'] = $request->description;
+		unset($request['description']);
+		$product->update($request->all());
+
+		return response([
+			'data' => new ProductResource($product)
+		], Response::HTTP_CREATED);
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Model\Product  $product
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Product $product)
+	{
+		$this->ProductUserCheck($product);
+		$product->delete();
+		return response(null, Response::HTTP_NO_CONTENT);
+	}
+
+	public function ProductUserCheck($product)
+	{
+			/*
+			if (Auth::id() !== $product->user_id) {
+				throw new ProductNotBelongsToUser;
+			}
+			 */
+	}
 }

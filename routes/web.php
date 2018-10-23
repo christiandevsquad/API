@@ -13,11 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('login');
 
 Route::get('/index', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/test', function () {
     return view('test');
@@ -29,7 +29,9 @@ Route::get('/a', function () {
 
 Route::get('/product', function () {
     return view('add_product');
-});
+})->name('product');
+
+Route::post('/product', 'ProductController@store')->name('post_product');
 
 Auth::routes();
 
